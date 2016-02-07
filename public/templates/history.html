@@ -1,0 +1,11 @@
+<div class="page-header">
+  <h1 class="text-center">Task History</h1>
+</div>
+<ul class="list-group tasks">
+  <li ng-repeat="history in histories | orderBy:'-' | limitTo:20" class="list-group-item">
+    {{history.text}}
+    <i class="fa fa-star"></i>{{history.difficulty}}
+    <label class="label label-warning label-status" ng-show="!history.complete">Incomplete</label>
+    <label class="label label-success label-status" ng-show="history.complete">Done</label>
+  </li>
+</ul>

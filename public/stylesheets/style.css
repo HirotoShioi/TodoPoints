@@ -1,0 +1,26 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.tasks li{
+  font-size: 1.5em;
+}
+.rating{
+
+}
+.fa-star{
+  color:#FFD700;
+}
+.no-task{
+  color:#b3b3b3;
+}
+.trophy{
+  width: 120px;
+  text-align: center;
+}
+.label-status{
+  font-size: 14px;
+}

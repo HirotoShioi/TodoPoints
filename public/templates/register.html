@@ -1,0 +1,18 @@
+<div class="page-header">
+  <h1 class="text-center">Register</h1>
+</div>
+<form name="registerForm" ng-submit="register()" class="col-md-6 col-md-offset-3" novalidate="">
+  <fieldset class="form-group">
+    <label for="user">User Name</label>
+    <input type="text" class="form-control" placeholder="username" ng-model="userName" required>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="user">First Name</label>
+    <input type="text" class="form-control" placeholder="first name" ng-model="firstName" required>
+  </fieldset>
+  <fieldset class="form-group">
+    <label for="user">Last Name</label>
+    <input type="text" class="form-control" placeholder="last name" ng-model="lastName" required>
+  </fieldset>
+  <button type="submit" name="button" class="btn btn-primary" ng-disabled="registerForm.$invalid">Register</button>
+</form>

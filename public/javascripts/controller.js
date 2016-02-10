@@ -18,37 +18,33 @@ app.controller('todoCtrl',['$scope','Todo','User',function($scope,Todo,User){
        $scope.difficulty = false;
      });
   };
-
   $scope.doneTask = function(id,index,points){
-    removeTask = new Todo({_id:id});
     User.update({task_id:id,userName:myName},function(req,user){
-      console.log("user updated");
       $scope.user.points += points;
     });
     Todo.update({_id:id,userName:myName},function(req,task){
-      console.log("update complete");
+      $scope.tasks.splice($scope.tasks.length-index-1,1);
     });
-    $scope.tasks.splice(index,1);
   };
 
 }]);
 
 app.controller('profileCtrl',['$scope','User',function($scope,User){
   $scope.user = User.get({userName:myName});
-
-  $scope.trophies = [
-    {type:"fa fa-spinner fa-spin fa-5x"},
-    {type:"fa fa-circle-o-notch fa-spin fa-5x"},
-    {type:"fa fa-refresh fa-spin fa-5x"}
-  ];
 }]);
 
-app.controller('purchaseCtrl',['$scope',function($scope){
-  $scope.items = [
-    {type:"fa fa-spinner fa-spin fa-5x",text:"around the world"},
-    {type:"fa fa-circle-o-notch fa-spin fa-5x",text:"point the hole"},
-    {type:"fa fa-refresh fa-spin fa-5x",text:"infinity"}
-  ];
+app.controller('storeCtrl',['$scope','Store','User',function($scope,Store,User){
+  $scope.user = User.get({userName:myName});
+  $scope.items = Store.get({userName:myName});
+  $scope.buyItem = function(id,value){
+    if($scope.user.point > value){
+      Store.buy({userName:myName,itemID:id,value:value},function(res){
+        console.log(res);
+      });
+      //diable the purchase button
+      _.find($scope.items,{'trophyID':id}).purchased = true;
+    }
+  };
 }]);
 
 app.controller('historyCtrl',['$scope','Todo','User',function($scope,Todo,User){

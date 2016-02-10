@@ -7,6 +7,12 @@ var db = mongoose.connect('mongodb://localhost:27017/todoPoint')
 
 require('../models/todo');
 var Todo = mongoose.model('Todo');
+//db
+require('../models/User');
+var User = mongoose.model('User');
+
+require('../models/trophy');
+var Trophy = mongoose.model('Trophy');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -60,12 +66,7 @@ router.put('/todo',function(req,res){
   });
 });
 
-
 //User API
-//db
-require('../models/User');
-var User = mongoose.model('User');
-
 router.post('/user',function(req,res,next){
   var userObj = {userName:req.body.userName,firstName:req.body.firstName,lastName:req.body.lastName};
   var user = new User(userObj);
@@ -78,8 +79,25 @@ router.post('/user',function(req,res,next){
 router.get('/user/:userName',function(req,res){
   User.findOne({userName:req.params.userName},function(err,user){
     if(err || !user) return;
-    res.json(user);
-  });
+    //res.json(user);
+    Trophy.find({},function(err,trophy){
+      if(err || !trophy) return;
+      var detailedUser = {_id:user._id,userName:user.userName,firstName:user.firstName,lastName:user.lastName,points:user.points,item:[]};
+      for(i = 0; i < user.item.length;i++){
+        detailedItem = {trophyID:user.item[i].trophyID};
+          for(k = 0;k < trophy.length;k++){
+            if(user.item[i].trophyID == trophy[k].trophyID){
+              detailedItem.value = trophy[k].value;
+              detailedItem.title = trophy[k].title;
+              detailedItem.trophy = trophy[k].trophy;
+              detailedUser.item.push(detailedItem);
+              break;
+            }//if
+          }//for trophy
+        }//for item
+      res.json(detailedUser);
+    });//Trophy.find
+  });//User.findOne()
 });
 
 router.put('/user',function(req,res){
@@ -95,5 +113,38 @@ router.put('/user',function(req,res){
     });
   });
 });
+//store API
+router.get('/store/:username',function(req,res){
+  var name = req.params.username;
+  userTrophies = [];
+  User.findOne({userName:name},function(err,user){
+    Trophy.find({},function(req,trophy){
+    for(k = 0;k < trophy.length;k++){
+      aTrophy = {_id:trophy[k]._id,trophyID:trophy[k].trophyID,value:trophy[k].value,trophy:trophy[k].trophy,purchased:false};
+      for(i = 0;i< user.item.length;i++){
+          if(user.item[i].trophyID == trophy[k].trophyID){
+            aTrophy.purchased = "true";
+          }
+        }
+        userTrophies.push(aTrophy);
+      }//for()
+      res.json(userTrophies);
+    });
+  });
+});
 
+router.put('/store',function(req,res){
+  var name = req.body.userName;
+  var item = req.body.itemID;
+  var point = req.body.value;
+  User.findOne({userName:name},function(err,user){
+    if(err || !user) return;
+    if(user.points > point){
+      user.buy(function(err,boughtUser){
+        if(err || !boughtUser) return;
+        res.json(boughtUser);
+      },point,item);
+    }
+  });
+});
 module.exports = router;

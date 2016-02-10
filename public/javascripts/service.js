@@ -13,6 +13,14 @@ app.factory('User',['$resource',function($resource){
     {
       register:{method:'POST'},
       get:{method:'GET'},
-      update:{method:'PUT'}
+      update:{method:'PUT'},
     })
+}]);
+
+app.factory('Store',['$resource',function($resource){
+  return $resource('/store/:userName',{},
+  {
+    get:{method:'GET',isArray:true},
+    buy:{method:'PUT'},
+  })
 }]);

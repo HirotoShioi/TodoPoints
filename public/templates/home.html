@@ -1,5 +1,5 @@
 <div class="pageheader text-center">
-  <h1>{{title}} <label class="label label-primary">{{user.points}}</label></h1>
+  <h1>{{title}} <label class="label label-primary top-label">{{user.points}}</label></h1>
   <p>Welcome {{user.userName}}</p>
 </div>
 <ul class="list-group tasks">
@@ -31,7 +31,7 @@
       </div>
     </form>
   </li>
-  <li class="list-group-item" ng-repeat="task in tasks">
+  <li class="list-group-item" ng-repeat="task in tasks | orderBy:'-'">
     {{task.text}} <span class="fa fa-star"></span>{{task.difficulty}}
     <button class="btn btn-primary pull-right" ng-click="doneTask(task._id,$index,task.points)">done</button>
   </li>

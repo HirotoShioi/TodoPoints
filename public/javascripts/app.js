@@ -14,10 +14,10 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRo
     templateUrl:'/templates/profile.html',
     controller:'profileCtrl'
   })
-  .state('purchase',{
-    url:'/purchase',
-    templateUrl:'/templates/purchase.html',
-    controller:'purchaseCtrl'
+  .state('store',{
+    url:'/store',
+    templateUrl:'/templates/store.html',
+    controller:'storeCtrl'
   })
   .state('history',{
     url:'/history',

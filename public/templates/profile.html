@@ -1,4 +1,10 @@
-<h3>Trophies</h3>
+<div class="page-header">
+  <h1>Profile</h1>
+</div>
 <ul class="list-group">
-  <li class="col-sm-2 list-group-item trophy" ng-repeat="trophy in trophies"><i ng-class="trophy.type"></i></li>
+  <li class="col-sm-3 list-group-item text-center" ng-repeat="item in user.item">
+    <i ng-class="item.trophy"></i>
+    <p>{{item.title}}</p>
+    <label class="label label-primary">{{item.value}}</label>
+  </li>
 </ul>

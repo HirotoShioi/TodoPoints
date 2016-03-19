@@ -2,7 +2,7 @@
   <h1 class="text-center">Task History</h1>
 </div>
 <ul class="list-group tasks">
-  <li ng-repeat="history in histories | orderBy:'-' | limitTo:20" class="list-group-item">
+  <li ng-repeat="history in histories | orderBy:'-' | limitTo:40" class="list-group-item">
     {{history.text}}
     <i class="fa fa-star"></i>{{history.difficulty}}
     <label class="label label-warning label-status" ng-show="!history.complete">Incomplete</label>

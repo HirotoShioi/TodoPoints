@@ -37,7 +37,7 @@ app.controller('storeCtrl',['$scope','Store','User',function($scope,Store,User){
   $scope.user = User.get({userName:myName});
   $scope.items = Store.get({userName:myName});
   $scope.buyItem = function(id,value){
-    if($scope.user.point > value){
+    if($scope.user.points > value){
       Store.buy({userName:myName,itemID:id,value:value},function(res){
         console.log(res);
       });
